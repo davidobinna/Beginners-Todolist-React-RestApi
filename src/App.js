@@ -5,19 +5,13 @@ import Products from './Products';
 import Img from './logo.svg';
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import Rating from './Rating'; 
-import CardComponent from './Card';
-import UserForm from './UserForm';
-import Github from './Github';
+import Rating from './Rating';
 import { useReducer } from 'react';
 import ToDoList from "./ToDoList";
 import { v4 as uuidv4 } from "uuid";
 
 const todosInitialState = {
-  todos: [{id:1, text: "finishing writing hooks  chapter"},
-  {id:2, text: "play with kids"},
-  {id:3, text: "read bible"}
-  ]
+  todos: []
 };
 
 export const TodosContext = React.createContext();
@@ -37,10 +31,12 @@ function App() {
 
 function todosReducer(state,action) {
   switch (action.type) {
+    case 'get':
+      return {...state, todos:action.payload}
     case 'add':
-      const newTodDo = {id: uuidv4(), text:action.payload}
+      const newTodDo = {id: uuidv4(),name:action.payload.name, text:action.payload.text}
       //add new  todo onto array
-     const addedToDos = [...state.todos, newTodDo ];
+     const addedToDos = [...state.todos, action.payload ];
      //spread the state and assign todos
      return {...state, todos:addedToDos }
     case 'delete':
